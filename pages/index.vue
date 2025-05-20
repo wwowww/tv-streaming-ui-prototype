@@ -11,6 +11,12 @@
       @select="handleSelect"
     />
   </div>
+  <ContentModal
+      v-if="selectedItem"
+      :item="selectedItem"
+      :visible="true"
+      @close="selectedItem = null"
+    />
 </template>
 
 <script setup lang="ts">
@@ -46,8 +52,9 @@ const handleFocusChange = (offset: number) => {
   currentIndex.value = nextIndex
 }
 
-const handleSelect = (item: { title: string }) => {
-  alert(`선택한 콘텐츠: ${item.title}`)
+const selectedItem = ref<null | { title: string; thumbnail: string }>(null)
+const handleSelect = (item: { title: string; thumbnail: string }) => {
+  selectedItem.value = item
 }
 </script>
 
