@@ -1,15 +1,22 @@
 <template>
   <div class="modal" v-if="visible">
     <div class="modal-content">
-      <h2>{{ item.title }}</h2>
-      <img :src="item.thumbnail" alt="" />
+      <h3>{{ item.title }}</h3>
+      <img :src="`https://image.tmdb.org/t/p/original${item.backdrop_path}`" :alt="item.title" />
+      <p>{{ item.overview }}</p>
       <button @click="emit('close')">닫기</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ item: { title: string; thumbnail: string }, visible: boolean }>()
+import type { Movie } from '~/types/Movie'
+
+defineProps<{
+  item: Movie
+  visible: boolean
+}>()
+
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
@@ -24,13 +31,15 @@ const emit = defineEmits<{
   justify-content: center;
   align-items: center;
   
-  img {
-    width: 100%;
-    height: 200px;
-  }
 }
 .modal-content {
   background: white;
   padding: 1em;
+  max-width: 600px;
+
+  img {
+    width: 100%;
+    height: 200px;
+  }
 }
 </style>
