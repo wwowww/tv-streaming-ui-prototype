@@ -1,24 +1,60 @@
 <template>
   <div class="content-grid">
-    <div
+    <ContentCard
       v-for="(item, index) in contentList"
       :key="index"
-      class="content-card"
-    >
-      <img :src="item.thumbnail" :alt="item.title" />
-      <p>{{ item.title }}</p>
-    </div>
+      :item="item"
+      :focused="index === currentIndex"
+      :index="index"
+      :cols="cols"
+      @focus-change="handleFocusChange"
+      @select="handleSelect"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { contentList } from '~/datas/contentList';
+import ContentCard from '~/components/ContentCard.vue'
+import { contentList } from '~/datas/contentList'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const currentIndex = ref(0)
+const cols = ref(1)
+
+const getCols = () => {
+  if (typeof window === 'undefined') return 1
+  if (window.innerWidth >= 1024) return 3
+  if (window.innerWidth >= 640) return 2
+  return 1
+}
+
+const updateCols = () => {
+  cols.value = getCols()
+}
+
+onMounted(() => {
+  updateCols()
+  window.addEventListener('resize', updateCols)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateCols)
+})
+
+const handleFocusChange = (offset: number) => {
+  const nextIndex = (currentIndex.value + offset + contentList.length) % contentList.length
+  currentIndex.value = nextIndex
+}
+
+const handleSelect = (item: { title: string }) => {
+  alert(`선택한 콘텐츠: ${item.title}`)
+}
 </script>
 
 <style scoped>
 .content-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(1, 1fr);
   gap: 16px;
   padding: 20px;
 }
@@ -26,8 +62,6 @@ import { contentList } from '~/datas/contentList';
 @media (min-width: 640px) {
   .content-grid {
     grid-template-columns: repeat(2, 1fr);
-    margin: 0 auto;
-    max-width: 1200px;
   }
 }
 
@@ -36,20 +70,4 @@ import { contentList } from '~/datas/contentList';
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
-.content-card {
-  padding: 8px;
-  color: white;
-  text-align: center;
-  background: #222;
-  border-radius: 8px;
-}
-
-.content-card img {
-  width: 100%;
-  height: 600px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
 </style>
