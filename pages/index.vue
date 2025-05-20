@@ -1,7 +1,10 @@
 <template>
   <div class="content-grid">
+    <div v-if="isLoading">Loading...</div>
+    <div v-else-if="error">Error: {{ error.message }}</div>
+
     <ContentCard
-      v-for="(item, index) in contentList"
+      v-for="(item, index) in movies"
       :key="index"
       :item="item"
       :focused="index === currentIndex"
@@ -10,50 +13,35 @@
       @focus-change="handleFocusChange"
       @select="handleSelect"
     />
-  </div>
-  <ContentModal
+
+    <ContentModal
       v-if="selectedItem"
       :item="selectedItem"
       :visible="true"
       @close="selectedItem = null"
     />
+  </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import ContentCard from '~/components/ContentCard.vue'
-import { contentList } from '~/datas/contentList'
-import { ref, onMounted, onUnmounted } from 'vue'
+import ContentModal from '~/components/ContentModal.vue'
+import { useMovies } from '~/composables/useMovies'
+import { useResponsiveGrid } from '~/composables/useResponsiveGrid'
 
+const { movies, isLoading, error } = useMovies()
+const { cols } = useResponsiveGrid()
 const currentIndex = ref(0)
-const cols = ref(1)
-
-const getCols = () => {
-  if (typeof window === 'undefined') return 1
-  if (window.innerWidth >= 1024) return 3
-  if (window.innerWidth >= 640) return 2
-  return 1
-}
-
-const updateCols = () => {
-  cols.value = getCols()
-}
-
-onMounted(() => {
-  updateCols()
-  window.addEventListener('resize', updateCols)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateCols)
-})
+const selectedItem = ref<null | { title: string; backdrop_path: string; overview: string }>(null)
 
 const handleFocusChange = (offset: number) => {
-  const nextIndex = (currentIndex.value + offset + contentList.length) % contentList.length
+  if (!movies.value) return
+  const nextIndex = (currentIndex.value + offset + movies.value.length) % movies.value.length
   currentIndex.value = nextIndex
 }
 
-const selectedItem = ref<null | { title: string; thumbnail: string }>(null)
-const handleSelect = (item: { title: string; thumbnail: string }) => {
+const handleSelect = (item: { title: string; backdrop_path: string; overview: string }) => {
   selectedItem.value = item
 }
 </script>
