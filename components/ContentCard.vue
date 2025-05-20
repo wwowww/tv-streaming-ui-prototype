@@ -6,14 +6,16 @@
     @keydown="onKeydown"
     @click="() => emit('select', item)"
   >
-    <img :src="item.thumbnail" :alt="item.title" />
-    <p>{{ item.title }}</p>
+    <img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" :alt="item.title" />
+    <h2>{{ item.title }}</h2>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { Movie } from '~/types/Movie'
+
 const props = defineProps<{
-  item: { title: string; thumbnail: string }
+  item: Movie
   focused: boolean
   index: number
   cols: number
@@ -21,7 +23,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'focus-change', offset: number): void
-  (e: 'select', item: { title: string; thumbnail: string }): void
+  (e: 'select', item: Movie): void
 }>()
 
 const onKeydown = (e: KeyboardEvent) => {
@@ -46,6 +48,7 @@ const onKeydown = (e: KeyboardEvent) => {
   emit('focus-change', offset)
 }
 </script>
+
 
 <style scoped>
 .content-card {
