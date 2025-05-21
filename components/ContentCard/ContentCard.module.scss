@@ -1,0 +1,24 @@
+.contentCard {
+  position: relative;
+  color: white;
+  border-radius: 8px;
+  outline: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  .title {
+    position: absolute;
+    z-index: 2;
+  }
+}
+
+.focused {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px #00c8ff;
+}
+
+.contentCard img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 4px;
+}

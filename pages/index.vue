@@ -1,7 +1,10 @@
 <template>
   <div class="content-grid">
-    <div v-if="isLoading">Loading...</div>
-    <div v-else-if="error">Error: {{ error.message }}</div>
+    <SectionTitle>Trending Now</SectionTitle>
+  </div>
+  <ul class="content-grid">
+    <li v-if="isLoading">Loading...</li>
+    <li v-else-if="error">Error: {{ error.message }}</li>
 
     <ContentCard
       v-for="(item, index) in movies"
@@ -20,13 +23,13 @@
       :visible="true"
       @close="selectedItem = null"
     />
-  </div>
+  </ul>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ContentCard from '~/components/ContentCard.vue'
-import ContentModal from '~/components/ContentModal.vue'
+import ContentCard from '~/components/ContentCard/ContentCard.vue'
+import ContentModal from '~/components/ContentModal/ContentModal.vue'
 import { useMovies } from '~/composables/useMovies'
 import { useResponsiveGrid } from '~/composables/useResponsiveGrid'
 
@@ -46,12 +49,30 @@ const handleSelect = (item: { title: string; backdrop_path: string; overview: st
 }
 </script>
 
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #000;
+}
+
+ol, ul, li {
+  list-style: none;
+}
+</style>
+
 <style scoped>
 .content-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
-  padding: 20px;
+  gap: 30px;
+  padding: 40px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 @media (min-width: 640px) {
@@ -63,6 +84,11 @@ const handleSelect = (item: { title: string; backdrop_path: string; overview: st
 @media (min-width: 1024px) {
   .content-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .content-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>

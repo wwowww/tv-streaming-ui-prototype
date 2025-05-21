@@ -1,0 +1,41 @@
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(20px);
+    opacity: 0.5;
+    transition: filter 0.5s ease, opacity 0.5s ease;
+    position: relative;
+    z-index: 1;
+    background-color: #000;
+    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
+  }
+}
+
+.imageWrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+      40deg,
+      rgb(22, 22, 22) 24.16%,
+      rgba(6, 10, 23, 0) 56.61%
+    ),
+    linear-gradient(0deg, rgb(22, 22, 22) 3.91%, rgba(6, 10, 23, 0) 69.26%);
+}
+
+.imageWrapper img.loaded {
+  filter: blur(0);
+  opacity: 1;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
+}
