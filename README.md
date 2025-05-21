@@ -5,7 +5,7 @@
 
 ## 💬 파일 실행 방법
 
-1. https://www.themoviedb.org/settings/api에서 로그인 후, api 키를 발급
+1. https://www.themoviedb.org/ 에서 로그인 후, setting -> api에서 api key 발급
 2. `.env`  파일 생성 후,
 3. your_tmdb_api_key에 입력해주고
 
