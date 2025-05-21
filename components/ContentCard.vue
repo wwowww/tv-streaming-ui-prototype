@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="cardRef"
     class="content-card"
     tabindex="0"
     :class="{ focused }"
@@ -12,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, watch } from 'vue'
 import type { Movie } from '~/types/Movie'
 
 const props = defineProps<{
@@ -25,6 +27,23 @@ const emit = defineEmits<{
   (e: 'focus-change', offset: number): void
   (e: 'select', item: Movie): void
 }>()
+
+const cardRef = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  if (props.focused && cardRef.value) {
+    cardRef.value.focus()
+  }
+})
+
+watch(
+  () => props.focused,
+  (newVal) => {
+    if (newVal && cardRef.value) {
+      cardRef.value.focus()
+    }
+  }
+)
 
 const onKeydown = (e: KeyboardEvent) => {
   let offset = 0
@@ -48,7 +67,6 @@ const onKeydown = (e: KeyboardEvent) => {
   emit('focus-change', offset)
 }
 </script>
-
 
 <style scoped>
 .content-card {
