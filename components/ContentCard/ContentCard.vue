@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, onMounted } from 'vue'
 import type { Movie } from '~/types/Movie'
+import CardIndex from "~/components/CardIndex/CardIndex.vue";
 import styles from './ContentCard.module.scss'
 
 const props = defineProps<{
@@ -71,6 +72,6 @@ const onKeydown = (e: KeyboardEvent) => {
     @click="() => emit('select', item)"
   >
     <img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" :alt="item.title" />
-    <h2>{{ item.title }}</h2>
+    <CardIndex :number="props.index + 1" />
   </li>
 </template>
