@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch, nextTick, onMounted } from 'vue'
 import type { Movie } from '~/types/Movie'
 import styles from './ContentCard.module.scss'
 
@@ -19,7 +19,9 @@ const cardRef = ref<HTMLElement | null>(null)
 
 onMounted(() => {
   if (props.focused && cardRef.value) {
-    cardRef.value.focus()
+    nextTick(() => {
+      cardRef.value?.focus()
+    })
   }
 })
 
@@ -27,7 +29,9 @@ watch(
   () => props.focused,
   (newVal) => {
     if (newVal && cardRef.value) {
-      cardRef.value.focus()
+      nextTick(() => {
+        cardRef.value?.focus()
+      })
     }
   }
 )
@@ -50,13 +54,16 @@ const onKeydown = (e: KeyboardEvent) => {
     case 'Enter':
       emit('select', props.item)
       return
+    default:
+      return
   }
+  e.preventDefault()
   emit('focus-change', offset)
 }
 </script>
 
 <template>
-  <div
+  <li
     ref="cardRef"
     :class="[styles.contentCard, props.focused ? styles.focused : '']"
     tabindex="0"
@@ -65,5 +72,5 @@ const onKeydown = (e: KeyboardEvent) => {
   >
     <img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" :alt="item.title" />
     <h2>{{ item.title }}</h2>
-  </div>
+  </li>
 </template>
