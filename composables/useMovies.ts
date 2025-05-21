@@ -1,7 +1,7 @@
 import { ref, onMounted } from 'vue'
 import type { Movie } from '~/types/Movie'
 
-const API_KEY = import.meta.env.VITE_API_KEY;
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 
 export const useMovies = () => {
