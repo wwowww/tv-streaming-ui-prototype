@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import type { Movie } from '~/types/Movie'
 import styles from './ContentModal.module.scss'
+import ModalImage from '~/components/ModalImage/ModalImage.vue'
 
 const props = defineProps<{
   item: Movie
@@ -19,17 +20,6 @@ const imageSrc = computed(() =>
     ? `https://image.tmdb.org/t/p/original${props.item.backdrop_path}`
     : ''
 )
-
-watch(
-  () => props.visible,
-  (visible) => {
-    if (visible) isLoaded.value = false
-  }
-)
-
-const handleLoad = () => {
-  isLoaded.value = true
-}
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape') {
@@ -51,14 +41,7 @@ onUnmounted(() => {
     <Transition name="fade-scale" appear>
       <div :class="styles.modalContent">
         <h3>{{ item.title }}</h3>
-        <div v-if="imageSrc" :class="styles.imageWrapper">
-          <img
-            :src="imageSrc"
-            :alt="item.title"
-            :class="{ [styles.loaded]: isLoaded }"
-            @load="handleLoad"
-          />
-        </div>
+        <ModalImage v-if="imageSrc" :src="imageSrc" :alt="item.title" />
         <p>{{ item.overview }}</p>
         <button @click="emit('close')">닫기</button>
       </div>

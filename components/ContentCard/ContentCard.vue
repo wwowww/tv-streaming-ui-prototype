@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import type { Movie } from '~/types/Movie'
-import styles from './ContentCard.module.scss' // module.scss import
+import styles from './ContentCard.module.scss'
 
 const props = defineProps<{
   item: Movie
