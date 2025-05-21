@@ -1,4 +1,7 @@
 <template>
+  <div class="content-grid">
+    <SectionTitle>Trending Now</SectionTitle>
+  </div>
   <ul class="content-grid">
     <li v-if="isLoading">Loading...</li>
     <li v-else-if="error">Error: {{ error.message }}</li>
@@ -53,6 +56,10 @@ const handleSelect = (item: { title: string; backdrop_path: string; overview: st
   box-sizing: border-box;
 }
 
+body {
+  background-color: #000;
+}
+
 ol, ul, li {
   list-style: none;
 }
@@ -62,8 +69,10 @@ ol, ul, li {
 .content-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 16px;
-  padding: 20px;
+  gap: 30px;
+  padding: 40px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 @media (min-width: 640px) {
@@ -75,6 +84,11 @@ ol, ul, li {
 @media (min-width: 1024px) {
   .content-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .content-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>
