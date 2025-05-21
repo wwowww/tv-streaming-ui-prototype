@@ -3,7 +3,6 @@
   width: 100%;
   height: 300px;
   overflow: hidden;
-  margin-bottom: 1em;
 
   img {
     width: 100%;
@@ -15,6 +14,8 @@
     position: relative;
     z-index: 1;
     background-color: #000;
+    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.5rem;
   }
 }
 
@@ -35,4 +36,6 @@
 .imageWrapper img.loaded {
   filter: blur(0);
   opacity: 1;
+  border-top-right-radius: 0.5rem;
+  border-top-left-radius: 0.5rem;
 }

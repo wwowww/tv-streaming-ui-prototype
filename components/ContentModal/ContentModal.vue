@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from 'vue'
 import type { Movie } from '~/types/Movie'
-import styles from './ContentModal.module.scss'
 import ModalImage from '~/components/ModalImage/ModalImage.vue'
+import styles from './ContentModal.module.scss'
 
 const props = defineProps<{
   item: Movie
@@ -12,8 +12,6 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
-
-const isLoaded = ref(false)
 
 const imageSrc = computed(() =>
   props.item?.backdrop_path
@@ -40,10 +38,10 @@ onUnmounted(() => {
   <div v-if="visible" :class="styles.modal" @click.self="emit('close')">
     <Transition name="fade-scale" appear>
       <div :class="styles.modalContent">
-        <h3>{{ item.title }}</h3>
         <ModalImage v-if="imageSrc" :src="imageSrc" :alt="item.title" />
-        <p>{{ item.overview }}</p>
-        <button @click="emit('close')">닫기</button>
+        <button @click="emit('close')" :class="styles.close" aria-label="닫기">✕</button>
+        <h3 :class="styles.title">{{ item.title }}</h3>
+        <p :class="styles.overview">{{ item.overview }}</p>
       </div>
     </Transition>
   </div>

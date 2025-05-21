@@ -1,7 +1,7 @@
 <template>
-  <div class="content-grid">
-    <div v-if="isLoading">Loading...</div>
-    <div v-else-if="error">Error: {{ error.message }}</div>
+  <ul class="content-grid">
+    <li v-if="isLoading">Loading...</li>
+    <li v-else-if="error">Error: {{ error.message }}</li>
 
     <ContentCard
       v-for="(item, index) in movies"
@@ -20,7 +20,7 @@
       :visible="true"
       @close="selectedItem = null"
     />
-  </div>
+  </ul>
 </template>
 
 <script setup lang="ts">
@@ -45,6 +45,18 @@ const handleSelect = (item: { title: string; backdrop_path: string; overview: st
   selectedItem.value = item
 }
 </script>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ol, ul, li {
+  list-style: none;
+}
+</style>
 
 <style scoped>
 .content-grid {
