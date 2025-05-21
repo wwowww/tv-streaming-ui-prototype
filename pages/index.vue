@@ -25,8 +25,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ContentCard from '~/components/ContentCard.vue'
-import ContentModal from '~/components/ContentModal.vue'
+import ContentCard from '~/components/ContentCard/ContentCard.vue'
+import ContentModal from '~/components/ContentModal/ContentModal.vue'
 import { useMovies } from '~/composables/useMovies'
 import { useResponsiveGrid } from '~/composables/useResponsiveGrid'
 

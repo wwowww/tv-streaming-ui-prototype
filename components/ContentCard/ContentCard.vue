@@ -1,20 +1,7 @@
-<template>
-  <div
-    ref="cardRef"
-    class="content-card"
-    tabindex="0"
-    :class="{ focused }"
-    @keydown="onKeydown"
-    @click="() => emit('select', item)"
-  >
-    <img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" :alt="item.title" />
-    <h2>{{ item.title }}</h2>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import type { Movie } from '~/types/Movie'
+import styles from './ContentCard.module.scss' // module.scss import
 
 const props = defineProps<{
   item: Movie
@@ -68,26 +55,15 @@ const onKeydown = (e: KeyboardEvent) => {
 }
 </script>
 
-<style scoped>
-.content-card {
-  padding: 8px;
-  color: white;
-  text-align: center;
-  background: #222;
-  border-radius: 8px;
-  outline: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.content-card.focused {
-  transform: scale(1.05);
-  box-shadow: 0 0 0 3px #00c8ff;
-}
-
-.content-card img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-</style>
+<template>
+  <div
+    ref="cardRef"
+    :class="[styles.contentCard, props.focused ? styles.focused : '']"
+    tabindex="0"
+    @keydown="onKeydown"
+    @click="() => emit('select', item)"
+  >
+    <img :src="`https://image.tmdb.org/t/p/original${item.poster_path}`" :alt="item.title" />
+    <h2>{{ item.title }}</h2>
+  </div>
+</template>
