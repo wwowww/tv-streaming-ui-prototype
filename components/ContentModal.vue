@@ -1,18 +1,20 @@
 <template>
   <div class="modal" v-if="visible" @click.self="emit('close')">
-    <div class="modal-content">
-      <h3>{{ item.title }}</h3>
-      <div class="image-wrapper" v-if="imageSrc">
-        <img
-          :src="imageSrc"
-          :alt="item.title"
-          :class="{ loaded: isLoaded }"
-          @load="handleLoad"
-        />
+    <Transition name="fade-scale" appear>
+      <div class="modal-content">
+        <h3>{{ item.title }}</h3>
+        <div class="image-wrapper" v-if="imageSrc">
+          <img
+            :src="imageSrc"
+            :alt="item.title"
+            :class="{ loaded: isLoaded }"
+            @load="handleLoad"
+          />
+        </div>
+        <p>{{ item.overview }}</p>
+        <button @click="emit('close')">닫기</button>
       </div>
-      <p>{{ item.overview }}</p>
-      <button @click="emit('close')">닫기</button>
-    </div>
+    </Transition>
   </div>
 </template>
 
@@ -63,6 +65,25 @@ onUnmounted(() => {
 })
 </script>
 
+<style>
+.fade-scale-enter-active,
+.fade-scale-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-scale-enter-from,
+.fade-scale-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.fade-scale-enter-to,
+.fade-scale-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+</style>
+
 <style scoped>
 .modal {
   position: fixed;
@@ -71,6 +92,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .modal-content {
@@ -78,6 +100,8 @@ onUnmounted(() => {
   padding: 1em;
   max-width: 600px;
   width: 90%;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .image-wrapper {
@@ -85,6 +109,7 @@ onUnmounted(() => {
   height: 300px;
   overflow: hidden;
   position: relative;
+  margin-bottom: 1em;
 }
 
 .image-wrapper img {
